@@ -38,7 +38,7 @@ class Ssm:
             raise SsmException(e)
 
     @staticmethod
-    def add_parameter(parameter: dict, profile='default', region='us-west-2', random=False):
+    def add_parameter(parameter: dict, profile='default', region='us-east-1', random=False):
 
         if random:
             parameter['Value'] = ''.join(choices(string.ascii_uppercase + string.digits, k=22))

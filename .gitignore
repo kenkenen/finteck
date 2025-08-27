@@ -1,1 +1,24 @@
-venv
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDEs
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Azure Functions local dev
+local.settings.json
+__azurite_db_*.json
+__blobstorage__/
+__queuestorage__/
+AzuriteConfig
+
+# Logs
+*.log

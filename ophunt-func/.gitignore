@@ -1,0 +1,65 @@
+# Azurite config file
+ophunt/AzuriteConfig
+
+# Function runtime local files
+*.ps1xml
+*.psmdcp
+*.pssc
+
+# Host and profile duplicates inside function subfolders (local runtime copies)
+ophunt/host.json
+ophunt/profile.ps1
+ophunt/requirements.psd1
+
+# Logs and temp data
+*.log
+*.tmp
+
+bin
+obj
+csx
+.vs
+edge
+Publish
+
+*.user
+*.suo
+*.cscfg
+*.Cache
+project.lock.json
+
+/packages
+/TestResults
+
+/tools/NuGet.exe
+/App_Data
+/secrets
+/data
+.secrets
+appsettings.json
+local.settings.json
+
+node_modules
+dist
+
+# Local python packages
+.python_packages/
+
+# Python Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Azurite artifacts
+__blobstorage__
+__queuestorage__
+__azurite_db*__.json

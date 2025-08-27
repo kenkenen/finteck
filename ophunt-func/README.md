@@ -1,7 +1,7 @@
 # ophunt-func
 
 PowerShell Azure Function for **ophunt**, running locally with [Azurite](https://github.com/Azure/Azurite) as the Azure Storage emulator.  
-This project lets you expose your `pull_data.ps1` script through an HTTP endpoint for local development.
+This project lets you expose the `pull_data.ps1` script through an HTTP endpoint for local development.
 
 --- 
 
@@ -192,6 +192,6 @@ curl -X POST "http://localhost:7071/api/ophunt"   -H "Content-Type: application/
 
 - `FINNHUB_TOKEN` is injected via `local.settings.json` (never commit it).  
 - Azurite artifacts and secrets are already ignored in `.gitignore`.  
-- Logs from your script (`Write-Host`) will appear in the Functions host console.
+- Logs from the script (`Write-Host`) will appear in the Functions host console.
 
 ---

@@ -29,7 +29,7 @@ function Get-Param([string]$name, $default = $null) {
 # Parameters (HTTP -> script)
 # ----------------------------
 
-# Map HTTP inputs to your pull_data.ps1 parameters
+# Map HTTP inputs to the pull_data.ps1 parameters
 $limit     = [int](Get-Param 'limit'     10000)
 $chunkSize = [int](Get-Param 'chunkSize' 50)
 $dte       = [int](Get-Param 'dte'       21)
@@ -45,7 +45,7 @@ $format    = (Get-Param 'format' 'json')
 $env:FINNHUB_TOKEN = $env:FINNHUB_TOKEN
 
 # ----------------------------
-# Execute user script
+# Execute script
 # ----------------------------
 
 Push-Location $PSScriptRoot  # = this function folder (ophunt/)
@@ -55,7 +55,7 @@ try {
         throw "pull_data.ps1 not found at $scriptPath"
     }
 
-    # Invoke your script; capture stdout/stderr
+    # Invoke the script; capture stdout/stderr
     $raw = & $scriptPath $limit $chunkSize $dte $dateCode $symbol 2>&1
 
     # If caller asked for plain text, return as-is
@@ -73,7 +73,7 @@ try {
         return
     }
 
-    # Try to parse the script output as JSON (if your script already emits JSON)
+    # Try to parse the script output as JSON
     $json = $null
     try { $json = $raw | ConvertFrom-Json -ErrorAction Stop } catch {}
 

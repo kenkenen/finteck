@@ -3,6 +3,59 @@
 PowerShell Azure Function for **ophunt**, running locally with [Azurite](https://github.com/Azure/Azurite) as the Azure Storage emulator.  
 This project lets you expose your `pull_data.ps1` script through an HTTP endpoint for local development.
 
+--- 
+
+## Code & Config Explained
+
+<details>
+<summary>Click to expand</summary>
+
+### 🔹 `run.ps1`
+- Entry point executed by the Azure Functions runtime.
+- Parses query/body parameters from the HTTP request.
+- Maps those parameters to `pull_data.ps1`.
+- Executes `pull_data.ps1` and captures its output.
+- Formats the response:
+    - `json` (default) → wrapped in a JSON object.
+    - `txt` → raw text passthrough.
+- Returns the HTTP response with proper headers.
+
+### 🔹 `pull_data.ps1`
+- Custom script containing business logic.
+- Fetches and processes option chain data from Finnhub.
+- Parameters:
+    - `limit` → max rows to fetch.
+    - `chunkSize` → rows per request.
+    - `dte` → days-to-expiration.
+    - `dateCode` → expiration date code.
+    - `symbol` → ticker symbol.
+- Reads `FINNHUB_TOKEN` from environment variables.
+- Outputs structured data (table or JSON).
+
+### 🔹 `function.json`
+- Defines the function’s trigger and output bindings.
+- In this case:
+    - **httpTrigger**: allows the function to be called with GET/POST.
+    - **authLevel**: `"function"` requires an API key, `"anonymous"` makes it public.
+    - **http** output: sends back the HTTP response.
+
+### 🔹 `host.json`
+- Global configuration for the Functions host.
+- Defines logging levels, extension settings, and runtime behavior.
+- Example: control logging verbosity or queue retry policies.
+
+### 🔹 `profile.ps1`
+- Executes once at function app startup.
+- Used to preload PowerShell modules, set environment variables, or run initialization logic.
+- Example: load Az modules or configure logging.
+
+### 🔹 `requirements.psd1`
+- Lists PowerShell module dependencies.
+- The Functions runtime downloads and installs these modules automatically.
+- Keeps your environment reproducible.
+
+</details>
+
 ---
 
 ## Project Structure
@@ -16,7 +69,7 @@ ophunt-func/
 └─ ophunt/
    ├─ function.json
    ├─ run.ps1
-   └─ pull_data.ps1           # your custom script
+   └─ pull_data.ps1           # custom script
 ```
 
 ---
@@ -52,7 +105,7 @@ Create `local.settings.json` in the project root:
 ```
 
 - `AzureWebJobsStorage` → points Functions runtime to Azurite  
-- `FINNHUB_TOKEN` → required for your `pull_data.ps1` script  
+- `FINNHUB_TOKEN` → required for the `pull_data.ps1` script  
 
 This file is ignored by git (`.gitignore`).
 
@@ -63,6 +116,7 @@ This file is ignored by git (`.gitignore`).
 1. **Start Azurite** (in a separate terminal):
 
    ```bash
+   mkdir -p ~/.azurite
    azurite --location ~/.azurite --silent
    ```
 
@@ -131,9 +185,7 @@ curl -X POST "http://localhost:7071/api/ophunt"   -H "Content-Type: application/
   pkill -f azurite
   azurite --location ~/.azurite --silent --blobPort 10010 --queuePort 10011 --tablePort 10012
   ```
-
-  Then update `AzureWebJobsStorage` with a custom connection string.
-
+  
 ---
 
 ## Notes

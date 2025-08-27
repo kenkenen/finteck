@@ -1,6 +1,10 @@
 # Azurite config file
 ophunt/AzuriteConfig
 
+.idea/
+*.iml
+out/
+
 # Function runtime local files
 *.ps1xml
 *.psmdcp
